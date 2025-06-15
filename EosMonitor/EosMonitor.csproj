@@ -1,0 +1,384 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>True</UseWindowsForms>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;CA2211;IDE0044</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;CA2211;IDE0044</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Resources\AFModeIcons_60D\**" />
+    <Compile Remove="Resources\Lock\**" />
+    <EmbeddedResource Remove="Resources\AFModeIcons_60D\**" />
+    <EmbeddedResource Remove="Resources\Lock\**" />
+    <None Remove="Resources\AFModeIcons_60D\**" />
+    <None Remove="Resources\Lock\**" />
+    <Page Remove="Resources\AFModeIcons_60D\**" />
+    <Page Remove="Resources\Lock\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\ArrowIcons\Stack.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_Auto.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_CA.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_CloseUp.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_FlashOff.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_Landscape.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_Movies.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_NightPortrait.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_Portrait.png" />
+    <None Remove="Resources\BulbTimerIcons\AEMode_Sports.png" />
+    <None Remove="Resources\BulbTimerIcons\BulbTimerIcon_gray.png" />
+    <None Remove="Resources\BulbTimerIcons\BulbTimerIcon_green.png" />
+    <None Remove="Resources\BulbTimerIcons\BulbTimerIcon_red.png" />
+    <None Remove="Resources\AFModeIcons\AF-Icons_R6_600x400.png" />
+    <None Remove="Resources\ArrowIcons\ArrowLeft_1.png" />
+    <None Remove="Resources\ArrowIcons\ArrowLeft_2.png" />
+    <None Remove="Resources\ArrowIcons\ArrowLeft_3.png" />
+    <None Remove="Resources\ArrowIcons\ArrowRight_1.png" />
+    <None Remove="Resources\ArrowIcons\ArrowRight_2.png" />
+    <None Remove="Resources\ArrowIcons\ArrowRight_3.png" />
+    <None Remove="Resources\ArrowIcons\Arrow_Down.png" />
+    <None Remove="Resources\ArrowIcons\Arrow_Up.png" />
+    <None Remove="Resources\ArrowIcons\leftArrows.png" />
+    <None Remove="Resources\ArrowIcons\rightArrows.png" />
+    <None Remove="Resources\AFModeIcons\AF erweitert.png" />
+    <None Remove="Resources\AFModeIcons\AF erweiterte Umgebung.png" />
+    <None Remove="Resources\AFModeIcons\AF große Zone horizontal.png" />
+    <None Remove="Resources\AFModeIcons\AF große Zone Vertikal.png" />
+    <None Remove="Resources\AFModeIcons\AF Zone.png" />
+    <None Remove="Resources\AFModeIcons\Einzelfeld AF.png" />
+    <None Remove="Resources\AFModeIcons\Gesichtserkennung+Verfolgung.png" />
+    <None Remove="Resources\AFModeIcons\Spot AF.png" />
+    <None Remove="Resources\BatteryIcons\BatteryDefaultIcon.png" />
+    <None Remove="Resources\BatteryIcons\Battery_00.png" />
+    <None Remove="Resources\BatteryIcons\Battery_10.png" />
+    <None Remove="Resources\BatteryIcons\Battery_100.png" />
+    <None Remove="Resources\BatteryIcons\Battery_20.png" />
+    <None Remove="Resources\BatteryIcons\Battery_30.png" />
+    <None Remove="Resources\BatteryIcons\Battery_40.png" />
+    <None Remove="Resources\BatteryIcons\Battery_50.png" />
+    <None Remove="Resources\BatteryIcons\Battery_60.png" />
+    <None Remove="Resources\BatteryIcons\Battery_70.png" />
+    <None Remove="Resources\BatteryIcons\Battery_80.png" />
+    <None Remove="Resources\BatteryIcons\Battery_90.png" />
+    <None Remove="Resources\BatteryIcons\Battery_AC.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_continous_HighSpeed.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_continous_LowSpeed.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_continuous.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_silent_continuous.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_silent_HighSpeed.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_silent_LowSpeed.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_silent_Single.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_Single.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_Timer.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_Timer_10.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_Timer_2.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_Timer_continuous.png" />
+    <None Remove="Resources\DriveModeIcons\DrM_Video.png" />
+    <None Remove="Resources\dummy.png" />
+    <None Remove="Resources\EosMonitor.png" />
+    <None Remove="Resources\EosMonitorIcon.ico" />
+    <None Remove="Resources\EosMonitor_org.png" />
+    <None Remove="Resources\EV_AEBIcons\AEB_Icon.png" />
+    <None Remove="Resources\EV_AEBIcons\PlusMinus_Icon.png" />
+    <None Remove="Resources\LiveViewIcons\Crosslines.png" />
+    <None Remove="Resources\LiveViewIcons\Crosslines_active.png" />
+    <None Remove="Resources\LiveViewIcons\Crosslines_green.png" />
+    <None Remove="Resources\LiveViewIcons\HistogramIcon.png" />
+    <None Remove="Resources\LiveViewIcons\HistogramIcon_active.png" />
+    <None Remove="Resources\LiveViewIcons\HistogramIcon_green.png" />
+    <None Remove="Resources\LiveViewIcons\HistogramIcon_green_active.png" />
+    <None Remove="Resources\LiveViewIcons\LiveView.png" />
+    <None Remove="Resources\LiveViewIcons\LiveView_black.png" />
+    <None Remove="Resources\LiveViewIcons\LiveView_green.png" />
+    <None Remove="Resources\LiveViewIcons\Rectangle.png" />
+    <None Remove="Resources\LiveViewIcons\Zoom.png" />
+    <None Remove="Resources\LiveViewIcons\ZoomMinus.png" />
+    <None Remove="Resources\LiveViewIcons\ZoomMinus_active.png" />
+    <None Remove="Resources\LiveViewIcons\ZoomPlus.png" />
+    <None Remove="Resources\LiveViewIcons\ZoomPlus_active.png" />
+    <None Remove="Resources\MeteringModeIcons\MM_CenterW.png" />
+    <None Remove="Resources\MeteringModeIcons\MM_Evaluative.png" />
+    <None Remove="Resources\MeteringModeIcons\MM_Partial.png" />
+    <None Remove="Resources\MeteringModeIcons\MM_Spot.png" />
+    <None Remove="Resources\DownloadIcon\DownloadIcon.png" />
+    <None Remove="Resources\ViewerBackground.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Management">
+      <HintPath>..\..\..\Users\Herbert\.nuget\packages\system.management\9.0.2\runtimes\win\lib\net9.0\System.Management.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\ArrowIcons\Stack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BulbTimerIcons\BulbTimerIcon_gray.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BulbTimerIcons\BulbTimerIcon_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BulbTimerIcons\BulbTimerIcon_red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\AF-Icons_R6_600x400.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\ArrowLeft_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\ArrowLeft_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\ArrowLeft_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\ArrowRight_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\ArrowRight_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\ArrowRight_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\Arrow_Down.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\Arrow_Up.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\leftArrows.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ArrowIcons\rightArrows.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\AF erweitert.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\AF erweiterte Umgebung.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\AF große Zone horizontal.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\AF große Zone Vertikal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\AF Zone.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\Einzelfeld AF.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\Gesichtserkennung+Verfolgung.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\AFModeIcons\Spot AF.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\BatteryDefaultIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_00.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_100.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_20.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_30.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_40.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_50.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_60.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_70.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_80.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_90.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\BatteryIcons\Battery_AC.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_continous_HighSpeed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_continous_LowSpeed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_continuous.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_silent_continuous.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_silent_HighSpeed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_silent_LowSpeed.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_silent_Single.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_Single.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_Timer.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_Timer_10.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_Timer_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_Timer_continuous.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DriveModeIcons\DrM_Video.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\dummy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\EosMonitor.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\EosMonitorIcon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\EV_AEBIcons\AEB_Icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\EV_AEBIcons\PlusMinus_Icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\Crosslines.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\Crosslines_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\Crosslines_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\HistogramIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\HistogramIcon_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\HistogramIcon_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\HistogramIcon_green_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\LiveView.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\LiveView_black.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\LiveView_green.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\Rectangle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\ZoomMinus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\ZoomMinus_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\ZoomPlus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\LiveViewIcons\ZoomPlus_active.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\MeteringModeIcons\MM_CenterW.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\MeteringModeIcons\MM_Evaluative.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\MeteringModeIcons\MM_Partial.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\MeteringModeIcons\MM_Spot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\DownloadIcon\DownloadIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\ViewerBackground.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Resources\PDF_Icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

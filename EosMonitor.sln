@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EosMonitor", "EosMonitor\EosMonitor.csproj", "{49A209CF-3586-462D-86FC-684FF012F8A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EADB8B7-E700-44E4-90E4-433F346A20E7}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EosMonitorSetup", "EosMonitor_Setup\EosMonitor_Setup.vdproj", "{EA23E1E2-56C0-4236-94A6-F9A07AD16CDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49A209CF-3586-462D-86FC-684FF012F8A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49A209CF-3586-462D-86FC-684FF012F8A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49A209CF-3586-462D-86FC-684FF012F8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49A209CF-3586-462D-86FC-684FF012F8A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA23E1E2-56C0-4236-94A6-F9A07AD16CDC}.Debug|Any CPU.ActiveCfg = Debug
+		{EA23E1E2-56C0-4236-94A6-F9A07AD16CDC}.Debug|Any CPU.Build.0 = Debug
+		{EA23E1E2-56C0-4236-94A6-F9A07AD16CDC}.Release|Any CPU.ActiveCfg = Release
+		{EA23E1E2-56C0-4236-94A6-F9A07AD16CDC}.Release|Any CPU.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4F3D67B3-C854-493D-B3F7-402787CCE3AD}
+	EndGlobalSection
+EndGlobal

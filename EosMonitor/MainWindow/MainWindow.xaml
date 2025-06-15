@@ -1,0 +1,686 @@
+﻿<Window x:Name="ThisWindow"
+        x:Class="EosMonitor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EosMonitor"
+        WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow"  ResizeMode="CanResizeWithGrip" 
+        Title="EosMonitor" Height="660" Width="938" >
+
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+        <!-- Viewer Area -->
+        <Grid Name="EvfLiveViewGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="22"/>
+                <!-- Left Expander Minimum width -->
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="22"/>
+                <!-- Bottom Expander Minimum width -->
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Live View- / Preview- / Logo-Images -->
+            <StackPanel Grid.Column="1" Grid.Row="0">
+                <Image Source="..\Resources\ViewerBackground.png"  Canvas.ZIndex="01" Opacity="0.95"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+                <Image Name="LogoImage" Source="..\Resources\EosMonitor.png"  />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="0">
+                <Image x:Name="PreviewImage" Visibility="Hidden" 
+                       Source="{Binding Path=PreviewImageSource, UpdateSourceTrigger=PropertyChanged, 
+                       FallbackValue  ={StaticResource ResourceKey=dummyIcon}}"   />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.Row="0">
+                <Image x:Name="LiveViewImage"  Visibility="visible" 
+                       Source="{Binding LiveViewImageSource, FallbackValue={StaticResource ResourceKey=dummyIcon}, 
+                       UpdateSourceTrigger=PropertyChanged}"  />
+            </StackPanel>
+
+            <!-- Canvas for Zoom- and Evf AF-Rectangles -->
+            <Canvas x:Name="ZoomRectCanvas" Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Rectangle Name  ="ZoomRectangle" Fill="Transparent"
+                       Height="{Binding ZoomRect_Height, NotifyOnSourceUpdated=True}" 
+                       Width ="{Binding ZoomRect_Width, NotifyOnSourceUpdated=True}" 
+                       Canvas.Top ="{Binding ZoomRect_Y, NotifyOnSourceUpdated=True}" 
+                       Canvas.Left="{Binding ZoomRect_X, NotifyOnSourceUpdated=True}"
+                       Stroke="{Binding ZoomRect_Color, NotifyOnSourceUpdated=True, FallbackValue=White}"  
+                       StrokeThickness="1" Visibility="Visible" >
+                </Rectangle>
+            </Canvas>
+
+            <!-- Histogram canvas-->
+            <Canvas x:Name="HistogramCanvas" Grid.Column="1" Grid.Row="0" Visibility="Hidden" >
+                <Polygon Name="HistogramPolygon"  Canvas.ZIndex="05" Canvas.Top="15" Canvas.Right="10"   >
+                    <Polygon.Fill>
+                        <LinearGradientBrush  StartPoint="1,0.5" EndPoint="0,0.5">
+                            <GradientStop Color="White" Offset="0" />
+                            <GradientStop Color="Black" Offset="1" />
+                        </LinearGradientBrush>
+                    </Polygon.Fill>
+                </Polygon>
+                <Rectangle Canvas.ZIndex="0"   Stroke="DarkGray" Fill="White" StrokeThickness="2"   Canvas.Top="5" Canvas.Right="5" 
+                  Width="110" Height="80" RadiusX="02" RadiusY="02"    />
+                <Rectangle Canvas.ZIndex="0"   Stroke="Transparent" Fill="LightSkyBlue" Opacity="0.2" StrokeThickness="2"  Canvas.Top="10" Canvas.Right="10" 
+                  Width="100" Height="70"     />
+            </Canvas>
+
+            <!-- AFOFF-Message canvas-->
+            <Canvas x:Name="AFOFF_Hint" Grid.Column="1" Grid.Row="0" Visibility="hidden" >
+                 <Label Height="40" Width="250" Margin="445,300,0,0"
+                           HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Verdana" FontSize="12" BorderBrush="SlateGray"  BorderThickness="0.5" 
+                           FontStretch="ExtraCondensed" FontWeight="Normal" Background="{DynamicResource LightSteelBlueGradientLight}" Opacity="0.8" />
+                <Label Height="30" Width="250"  Margin="470,308,0,0" Content="Set Autofocus switch: OFF!" 
+                           HorizontalAlignment="Center"  VerticalAlignment="Center" FontFamily="Verdana" FontSize="13" 
+                           FontStretch="ExtraCondensed" FontWeight="SemiBold" Foreground="MediumVioletRed" MouseLeftButtonUp="AFON_Hint_Click"/>
+            </Canvas>
+
+            <!-- Evf Live View AF Focus Points -->
+            <Canvas x:Name="LiveViewCanvas"  Grid.Column="1" Grid.Row="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Rectangle Name="FP_0"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden" />
+                <Rectangle Name="FP_1"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_2"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="500" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_3"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_4"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_5"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_6"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_7"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_8"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_9"  StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_10" StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_11" StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_12" StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_13" StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_14" StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+                <Rectangle Name="FP_15" StrokeThickness="1" Stroke="Black" Width="10" Height="10" Canvas.Top="195" Canvas.Left="495" Canvas.ZIndex="01" Visibility="Hidden"/>
+            </Canvas>
+        </Grid>
+
+        <!-- Live View Control Area at MainWindow bottom side -->
+        <Expander Name="LiveViewControlsExpander"  Visibility="Visible" HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                  ExpandDirection="Up" IsExpanded="false" BorderBrush="#FFD2D2D2" BorderThickness="1" Width="700" >
+            <!-- Expander Area Background -->
+            <Expander.Background>
+                <LinearGradientBrush EndPoint="0,0" StartPoint="0,1" Opacity="0.3">
+                    <GradientStop Color="DarkGray"     Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Expander.Background>
+            <StackPanel>
+                <Grid Name="LiveViewControl" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Evf histogram button -->
+                    <Image x:Name="HistogramButton" Source="{Binding Path=HistogramIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=HistogramIcon}}" 
+                           Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Height="25"  MouseLeftButtonUp="Evf_Histogram_Click" MouseEnter="Evf_Histogram_MouseEnter" MouseLeave="Evf_Histogram_MouseLeave" 
+                           ToolTip="Show histogram of the LiveView image"/>
+
+                    <!-- Evf zoom button -->
+                    <Image x:Name="ZoomButton" Source="{Binding Path=ZoomIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=ZoomDefaultIcon}}" 
+                           Grid.Row="1" Grid.Column="3"  Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Height="35" MouseLeftButtonUp="Evf_Zoom_Click"  Margin="0,2,0,0" MouseEnter="Evf_ZoomIcon_MouseEnter" MouseLeave="Evf_ZoomIcon_MouseLeave"
+                           ToolTip="Zoom 5x"/>
+
+                    <!-- Live View Autofocus button -->
+                    <Image x:Name="LiveViewAFButton"
+                           Source="{Binding Path=CrosslinesIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=CrosslinesIcon}}" 
+                           Grid.Row="1" Grid.Column="5"  Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Height="25" MouseLeftButtonUp="Evf_AutofocusButton_Click" 
+                           MouseEnter="Evf_AFButton_MouseEnter" MouseLeave="Evf_AFButton_MouseLeave"
+                           ToolTip="Start/Stop Autofocus: AF must be set ON at the camera lens!!" />
+
+                    <!-- Focus step left -->
+                    <Canvas x:Name="DriveLeftButtonCanvas" Grid.Row="1" Grid.Column="12" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                        <TextBox x:Name="DriveLeftButtonHG"  Grid.RowSpan="2"
+                           Height="25" Width="35" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <Label x:Name="DriveLeftButtonIcon"  Grid.RowSpan="2" Height="30" Width="35" Margin="0,-4,0,0"
+                           Content="" FontFamily="Webdings" FontSize="25"  FontStretch="Normal"  FontWeight="Normal" />
+                        <Rectangle Canvas.Left="0" Canvas.Top="0"  Width="35" Height="26" Fill="Transparent" 
+                        MouseEnter="DriveLeftButtom_MouseEnter" MouseLeave="DriveLeftButton_MouseLeave" MouseLeftButtonUp="DriveLensLeft" 
+                         ToolTip="Manual focus step left"/>
+                    </Canvas>
+
+                    <!-- Focus step right -->
+                    <Canvas x:Name="DriveRightButtonCanvas"  Grid.Row="1" Grid.Column="14" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBox x:Name="DriveRightButtonHG" Grid.RowSpan="2"
+                           Height="25" Width="35" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <Label x:Name="DriveRightButtonIcon" Grid.RowSpan="2" Height="30" Width="35" Margin="0,-4,0,0"
+                           Content="" FontFamily="Webdings" FontSize="25"  FontStretch="Normal"  FontWeight="Normal"  />
+                        <Rectangle Canvas.Left="0" Canvas.Top="0"  Width="35" Height="26" Fill="Transparent" 
+                        MouseEnter="DriveRightButton_MouseEnter" MouseLeave="DriveRightButton_MouseLeave" MouseLeftButtonUp="DriveLensRight"
+                         ToolTip="Manual focus step right"/>
+                    </Canvas>
+
+                    <!-- Width of the focus steps -->
+                    <Canvas x:Name="WidthOfFocusStepsCanvas" Grid.Row="1" Grid.Column="16" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBox x:Name="WidthOfFocusStepsButton" Grid.RowSpan="2" Height="25" Width="90" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <GroupItem Name="WidthOfFocusStepsArrow" Width="80" Height="30"
+                                   ToolTip="Width of each focus step"/>
+                        <Label Height="25" Width="45" Content="   " HorizontalAlignment="Center" Margin="0,-2,0,0"
+                               FontFamily="Symbol" FontSize="11"  FontStretch="ExtraCondensed"  FontWeight="Normal" />
+                        <Label Height="25" Width="45" Content="        " HorizontalAlignment="Center" FontFamily="Symbol" FontSize="11"  FontStretch="ExtraCondensed"  FontWeight="Normal" />
+                        <TextBox x:Name="StepSize"  Height="15" Width="35" Margin="50,4,0,0" BorderThickness="0"  Visibility="Visible" Background="Transparent" 
+                            Text="{Binding Path=FocusStepWidth, UpdateSourceTrigger=PropertyChanged }"  MouseLeave="StepSizeChangedEventHandler"
+                            TextAlignment="Center" HorizontalAlignment="Center" FontFamily="Verdana" FontSize="12"  FontStretch="Condensed" FontWeight="DemiBold" />
+                        <Rectangle Canvas.Left="0" Canvas.Top="0"  Width="55" Height="14" Fill="Transparent"
+                            MouseLeftButtonUp="WidthOfFocusStepsUp_Click" MouseEnter="WidthOfFocusStepsButton_MouseEnter" MouseLeave="WidthOfFocusStepsButton_MouseLeave" 
+                            ToolTip="Width of focus steps: 0 ... 10" />
+                        <Rectangle Canvas.Left="0" Canvas.Top="14"  Width="55" Height="14" Fill="Transparent" 
+                            MouseLeftButtonUp="WidthOfFocusStepsDown_Click" MouseEnter="WidthOfFocusStepsButton_MouseEnter" MouseLeave="WidthOfFocusStepsButton_MouseLeave" 
+                            ToolTip="Width of focus steps: 1 ... 3"/>
+                    </Canvas>
+
+                    <!-- Number and direction of focus steps -->
+                    <Canvas x:Name="FocusStepsCanvas" Grid.Row="1" Grid.Column="18" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBox x:Name="FocusStepsButton" Grid.RowSpan="2"  
+                           Height="25" Width="90" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <GroupItem Name="FocusStepsArrow" Width="80" Height="30" />
+                        <Label x:Name="FocusStepsFw1" Height="23" Width="55" Content="   " Visibility="Visible"
+                            HorizontalAlignment="Left" FontFamily="Symbol" FontSize="11"  FontStretch="ExtraCondensed"  FontWeight="Normal" VerticalAlignment="Center" />
+                        <Label x:Name="FocusStepsFw2" Height="23" Width="45" Content="" FontFamily="Webdings" Margin="-4,-2,0,0"
+                            HorizontalAlignment="Center"  FontSize="18"  FontStretch="ExtraCondensed"  FontWeight="Normal" Visibility="Visible" />
+                        <Label x:Name="FocusStepsBw1" Height="23" Width="55" Content="" Visibility="Hidden"
+                            HorizontalAlignment="Left" FontFamily="Symbol" FontSize="11"  FontStretch="ExtraCondensed"  FontWeight="Normal" VerticalAlignment="Center" />
+                        <Label x:Name="FocusStepsBw2" Height="23" Width="55" Content="    " FontFamily="Webdings" Margin="-8,-2,0,0"
+                            HorizontalAlignment="Center"  FontSize="18"  FontStretch="ExtraCondensed"  FontWeight="Normal" Visibility="Hidden" />
+                        <TextBox x:Name="NrFocusSteps"  Height="15" Width="35" Margin="50,4,0,0" BorderThickness="0"  Visibility="Visible" Background="Transparent" 
+                            Text="{Binding Path=NrFocusSteps, UpdateSourceTrigger=PropertyChanged }"  MouseLeave="NrFocusStepsChangedEventHandler"
+                            TextAlignment="Center" HorizontalAlignment="Center" FontFamily="Verdana" FontSize="12"  FontStretch="Condensed" FontWeight="DemiBold" />
+                        <Rectangle Canvas.Left="0" Canvas.Top="0"  Width="55" Height="14" Fill="Transparent"
+                            MouseLeftButtonUp="NrFocusStepsUp_Click" MouseEnter="NrFocusStepsButton_MouseEnter" MouseLeave="NrFocusStepsButton_MouseLeave" 
+                            ToolTip="Number and direction of the stacking steps. >0: towards the background"/>
+                        <Rectangle Canvas.Left="0" Canvas.Top="14"  Width="55" Height="14" Fill="Transparent" 
+                            MouseLeftButtonUp="NrFocusStepsDown_Click" MouseEnter="NrFocusStepsButton_MouseEnter" MouseLeave="NrFocusStepsButton_MouseLeave"
+                            ToolTip="# of stacking steps. >0: --> background &lt;0: --> camera"/>
+                    </Canvas>
+
+                    <!-- Start stacking -->
+                    <Canvas x:Name="StartStackingCanvas" Grid.Row="1"  Grid.Column="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <TextBox x:Name="StartStackingButton" Grid.RowSpan="2" 
+                           Height="25" Width="90" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" 
+                           MouseLeave="StartStackingButton_MouseLeave" MouseEnter="StartStackingButton_MouseEnter"  />
+                        <Label x:Name="StackingLabel" Grid.ColumnSpan="2" Height="40" Width="60" Margin="0,-5,0,0" BorderThickness="0"  Background="Transparent"
+                           ToolTip="Start focus stacking process"></Label>
+                        <Ellipse x:Name="StartStackingEllipseUp" Margin="15,-13,0,0" Height="20" Width="20" Canvas.Top="15" Visibility="Visible"
+                                Stroke="DimGray" StrokeThickness="2" 
+                                MouseLeave="StartStackingButton_MouseLeave" MouseEnter="StartStackingButton_MouseEnter" MouseLeftButtonUp="StartStacking_Click" >
+                            <Ellipse.Fill>
+                                <LinearGradientBrush ColorInterpolationMode="ScRgbLinearInterpolation">
+                                    <GradientStop Offset="0.00" Color="LightGray" />
+                                    <GradientStop Offset="0.25" Color="DarkGray" />
+                                    <GradientStop Offset="0.50" Color="DimGray" />
+                                    <GradientStop Offset="0.90" Color="Black" />
+                                </LinearGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Ellipse x:Name="StartStackingEllipseDown" Margin="15,-13,0,0" Height="20" Width="20" Canvas.Top="15" Visibility="Hidden"
+                                Stroke="DimGray" StrokeThickness="2"
+                                MouseLeave="StartStackingButton_MouseLeave" MouseEnter="StartStackingButton_MouseEnter" MouseLeftButtonUp="StartStacking_Click">
+                            <Ellipse.Fill>
+                                <LinearGradientBrush ColorInterpolationMode="ScRgbLinearInterpolation">
+                                    <GradientStop Offset="0.00" Color="Black" />
+                                    <GradientStop Offset="0.25" Color="DimGray" />
+                                    <GradientStop Offset="0.50" Color="DarkGray" />
+                                    <GradientStop Offset="0.90" Color="LightGray" />
+                                </LinearGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <Label Grid.RowSpan="2" Height="40" Width="30"  Margin="45,-5,0,0"
+                           Content="" FontFamily="Wingdings" FontSize="20"  FontStretch="Condensed"  FontWeight="Bold"  
+                           HorizontalAlignment="Center" VerticalAlignment="Top" />
+                    </Canvas>
+
+                </Grid>
+            </StackPanel>
+        </Expander>
+
+        <!-- Camera Control Area at MainWindow left side-->
+        <Expander Name="ExpanderLeft" HorizontalAlignment="Left" ExpandDirection="Right" IsExpanded="True" 
+                  BorderBrush="#FFD2D2D2" BorderThickness="0.8" Visibility="Visible" >
+            <!-- Control Area Background -->
+            <Expander.Background>
+                <LinearGradientBrush EndPoint="0,0" StartPoint="1,0" Opacity="0.3">
+                    <GradientStop Color="White"     Offset="0" />
+                    <GradientStop Color="DarkGray" Offset="1" />
+                </LinearGradientBrush>
+            </Expander.Background>
+
+            <!-- Stackpanel with  Control buttons -->
+            <StackPanel>
+                <Grid Name="ButtonGrid" Width="200" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="35"/>
+                        <RowDefinition Height="35"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="7"/>
+                        <ColumnDefinition Width="85"/>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="85" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Take Picture-Button -->
+                    <Canvas Grid.Row="1" Grid.Column="01">
+                        <Button Name="takePictureButton" Template="{StaticResource ResourceKey=EllipseButton}" 
+                            Height="34" Width="34" Margin="25,0,0,0"  
+                            Click="TakePictureButton_Click" MouseEnter="TakePictureButton_MouseEnter"/>
+                        <Ellipse x:Name="ShutterOpenDot"  Width="16" Height="16" Fill="Red" Stroke="DarkRed" StrokeThickness="2"
+                            Margin="34,9,0,0" Visibility="Hidden" MouseLeftButtonUp="TakePictureButton_Click"/>
+                    </Canvas>
+
+                    <!-- Progress Bar -->
+                    <GroupItem x:Name="ProgressBarGroup" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Hidden">
+                        <StatusBar VerticalAlignment="Bottom" Background="Transparent" >
+                            <StatusBarItem>
+                                <ProgressBar  Width="150" Height="10" Margin="0,4,0,0" 
+                                    Name="ProgressBar" Minimum="0" Maximum="100" Value="20" HorizontalAlignment="Center"  VerticalAlignment="Center">
+                                </ProgressBar>
+                            </StatusBarItem>
+                            <StatusBarItem HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+                                <Image Source="../Resources/DownloadIcon/DownloadIcon.png" />
+                            </StatusBarItem>
+                        </StatusBar>
+                    </GroupItem>
+
+                    <!-- Live View Button -->
+                    <Canvas x:Name="LVButton" Grid.Row="1" Grid.Column="03" Visibility="Visible" >
+                        <TextBox x:Name="LVButtonHG" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0"
+                           Background="{DynamicResource LightSteelBlueGradientLight}"  BorderBrush="SlateGray"  BorderThickness="0.5" 
+                           Text="LiveView" FontFamily="Verdana" FontSize="12"  FontStretch="Condensed" FontWeight="Normal" VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center" />
+                        <Label x:Name="LiveViewLabel" Height="25"  Width="45" Margin="4,5,0,0" FontWeight="Normal" 
+                           Content="{Binding Path=LvStartStop, UpdateSourceTrigger=PropertyChanged, TargetNullValue='LiveView'}" 
+                           HorizontalAlignment="Left" FontFamily="Verdana" FontSize="11" FontStretch="Condensed" />
+                        <Image x:Name="LVImage" Source="{Binding Path=LiveViewIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=dummyIcon}}"
+                            Height="16" Width="25" Canvas.Left="50" Canvas.Top="3" Margin="0,5,0,0" Visibility="Visible"  Opacity="0.9"/>
+                        <Label x:Name="LVButtonHG_Label" BorderBrush="SlateGray"
+                           Height="25" Width="85"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" 
+                           MouseEnter="LVButtonHG_MouseEnter" MouseLeave="LVButtonHG_MouseLeave" MouseLeftButtonUp="LiveViewButton_Click"/>
+                    </Canvas>
+
+                    <!-- Select Camera ComboBox -->
+                    <Canvas Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Visibility="Visible">
+                        <TextBox x:Name="CameraComboBoxHG" Height="25" Width="185" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                            Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <Label x:Name="CameraLabel"  Height="25" Width="185" Content="No cameras are attached" HorizontalContentAlignment="Center"
+                            HorizontalAlignment="Center" FontFamily="Verdana" FontSize="11"  FontStretch="Condensed" FontWeight="Normal" />
+                        <ComboBox x:Name="CameraComboBox" Height="25" Width="185" VerticalAlignment="Center"  HorizontalAlignment="Center" 
+                            IsReadOnly="True" Opacity="0"  SelectedIndex="{Binding selectedCameraIndex, UpdateSourceTrigger=PropertyChanged }" 
+                            ItemsSource="{Binding cameraNamesList, UpdateSourceTrigger=PropertyChanged }"  
+                            MouseEnter="CameraComboBox_MouseEnter" MouseLeave="CameraComboBox_MouseLeave" SelectionChanged="HandleCameraComboBox_SelectionChanged" />
+                    </Canvas>
+
+                    <!--Auto Exposure Mode Label-->
+                    <Canvas Grid.Row="4" Grid.Column="1"  >
+                        <TextBox Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5"  />
+                        <Label x:Name="AutoExposureMode" Height="25" Width="30"  Canvas.Left="60" 
+                           HorizontalAlignment="Right" FontFamily="Verdana" FontSize="12"  FontStretch="Condensed" FontWeight="Normal"
+                           Content="{Binding Path=AEModeIcon, UpdateSourceTrigger=PropertyChanged, TargetNullValue=''}"  />
+                        <Label x:Name="AEModeLabel"  Height="25" Width="60" Margin="4,0,0,0"
+                           Content="AEMode:" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="11" FontStretch="Condensed" />
+                    </Canvas>
+
+                    <!-- ISO Speed ComboBox -->
+                    <Canvas Grid.Row="4" Grid.Column="3">
+                        <TextBox x:Name="IsoComboBoxHG" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <Label x:Name="IsoLabel" Content="{Binding Path=ISOSpeedStr, UpdateSourceTrigger=PropertyChanged}" Height="25" Width="45" Canvas.Left="40"
+                           HorizontalAlignment="Right" FontFamily="Verdana" FontSize="12"  FontStretch="Condensed" FontWeight="Normal" />
+                        <Label  Height="25"  Width="45" Margin="4,0,0,0"
+                           Content="ISO:" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="11" FontStretch="Condensed" />
+                        <ComboBox x:Name="IsoComboBox"   
+                            Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center" 
+                            BorderBrush="SlateGray" BorderThickness="1" 
+                            ItemsSource="{Binding Path=ISOList}"  
+                            IsReadOnly="True" Opacity="0" SelectionChanged="Handle_IsoComboBox_SelectionChanged"   
+                            MouseEnter="IsoComboBox_MouseEnter" MouseLeave="IsoComboBox_MouseLeave" >
+                        </ComboBox>
+                    </Canvas>
+
+                    <!--Exposure Time Value ComboBox-->
+                    <Canvas Grid.Row="5" Grid.Column="1">
+                        <TextBox x:Name="ExposureTimeValueComboBoxHG" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <Label x:Name="ExposureTimeValueLabel"  Height="25" Width="60" Canvas.Left="25" 
+                           HorizontalAlignment="Right" FontFamily="Verdana" FontSize="12"  FontStretch="Condensed" FontWeight="Normal" />
+                        <Label x:Name="TVLabel" Height="25" Width="45" Margin="4,0,0,0"
+                           Content="TV:" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="11" FontStretch="Condensed" />
+                        <ComboBox x:Name="ExposureTimeValueComboBox"   
+                            Height="25" Width="85" VerticalAlignment="Bottom"  HorizontalAlignment="Center" 
+                            BorderBrush="SlateGray" BorderThickness="1" Margin="0,0,0,5"    
+                            IsReadOnly="True" Opacity="0" SelectionChanged="Handle_ExposureTimeValueComboBox_SelectionChanged" 
+                            MouseEnter="ExposureTimeValueComboBox_MouseEnter" MouseLeave="ExposureTimeValueComboBox_MouseLeave">
+                        </ComboBox>
+                    </Canvas>
+
+                    <!--Aperture Value ComboBox-->
+                    <Canvas Grid.Row="5" Grid.Column="3" >
+                        <TextBox x:Name="ApertureValueComboBoxHG" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5"/>
+                        <Label x:Name="ApertureValueLabel"  Height="25" Width="65" Canvas.Left="30"
+                           HorizontalAlignment="Center" FontFamily="Verdana" FontSize="12"  FontStretch="Condensed" FontWeight="Normal" />
+                        <Label x:Name="AVLabel" Height="25" Width="45" Margin="4,0,0,0"
+                           Content="AV:" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="11" FontStretch="Condensed" />
+                        <ComboBox x:Name="ApertureValueComboBox" 
+                           Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center" 
+                           BorderBrush="SlateGray" BorderThickness="1" 
+                           IsReadOnly="True" Opacity="0" SelectionChanged="Handle_ApertureValueComboBox_SelectionChanged"  
+                           MouseEnter="ApertureValueComboBox_MouseEnter" MouseLeave="ApertureValueComboBox_MouseLeave">
+                        </ComboBox>
+                    </Canvas>
+
+                    <!-- Drive Mode Button -->
+                    <Canvas Grid.Row="6" Grid.Column="1">
+                        <TextBox x:Name="DriveModeBG" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center" 
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <GroupItem Name="DriveModeArrow" Width="80" Height="30" />
+                        <Label x:Name="DriveModeLabel" Height="25" Width="45" Margin="4,0,0,0" 
+                            Content="Drive:" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="11" FontStretch="Condensed" />
+                        <Image Source="{Binding Path=DrModeIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=dummyIcon}}"
+                            Height="18" Width="25" Canvas.Left="50" Canvas.Top="3" MouseEnter="DriveModeButton_MouseEnter" />
+                        <Rectangle Canvas.Left="0"  Width="85" Height="14" Fill="Transparent"
+                            MouseLeftButtonUp="DriveModeUp_Click" MouseEnter="DriveModeButton_MouseEnter" MouseLeave="DriveModeButton_MouseLeave" HorizontalAlignment="Center" Canvas.Top="-1" VerticalAlignment="Top"   />
+                        <Rectangle Canvas.Left="0" Canvas.Top="13"  Width="85" Height="14" Fill="Transparent" 
+                            MouseLeftButtonUp="DriveModeDown_Click" MouseEnter="DriveModeButton_MouseEnter" MouseLeave="DriveModeButton_MouseLeave" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                    </Canvas>
+
+                    <!-- Metering Mode Button -->
+                    <Canvas x:Name="MeterModeCanvas" Grid.Row="6" Grid.Column="3">
+                        <TextBox x:Name="MeterModeButton" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                           Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <GroupItem Name="MeterModeArrow" Width="80" Height="30" />
+                        <Label x:Name="MeterModeLabel" Height="25" Width="45" Margin="4,0,0,0"
+                            Content="Meter:" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="11" FontStretch="Condensed" />
+                        <Image x:Name="MeterModeIcon"  Source="{Binding Path=MModeIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=dummyIcon}}"
+                            Height="16" Width="20" Canvas.Left="50" Canvas.Top="5" MouseEnter="DriveModeButton_MouseEnter" />
+                        <Rectangle Canvas.Left="0" Width="85" Height="14" Fill="Transparent"
+                            MouseLeftButtonUp="MeterModeUp_Click" MouseEnter="MeterModeButton_MouseEnter" MouseLeave="MeterModeButton_MouseLeave"  />
+                        <Rectangle Canvas.Left="0" Canvas.Top="14"  Width="85" Height="14" Fill="Transparent" 
+                            MouseLeftButtonUp="MeterModeDown_Click" MouseEnter="MeterModeButton_MouseEnter" MouseLeave="MeterModeButton_MouseLeave" />
+                    </Canvas>
+
+                    <!-- DSLR AF Mode Button -->
+                    <Canvas x:Name="DSLR_AFMCanvas" Grid.Row="7" Grid.Column="1" Visibility="Hidden">
+                        <TextBox x:Name="DSLR_AFMButton" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                            Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <GroupItem x:Name="DSLR_AFMArrow" Width="80" Height="30" Canvas.Left="-8" />
+                        <Label x:Name="DSLR_AFMLabel" Height="25" Width="30" Margin="4,0,0,0"
+                            Content="AF:" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="12" FontStretch="Condensed" />
+                        <Label x:Name="DSLR_AFMStr" Content="{Binding Path=AFModeStr, UpdateSourceTrigger=PropertyChanged }" Height="25" Width="60"  Canvas.Left="25" 
+                            HorizontalAlignment="Right" FontFamily="Verdana" FontSize="11"  FontStretch="ExtraCondensed" FontWeight="Normal" Margin="2,1,0,0" />
+                        <Rectangle Canvas.Left="0" Canvas.Top="0"  Width="85" Height="14" Fill="Transparent"
+                            MouseLeftButtonUp="DSLR_AFMUp_Click" MouseEnter="DSLR_AFMButton_MouseEnter" MouseLeave="DSLR_AFMButton_MouseLeave"  />
+                        <Rectangle Canvas.Left="0" Canvas.Top="14"  Width="85" Height="14" Fill="Transparent" 
+                            MouseLeftButtonUp="DSLR_AFMDown_Click" MouseEnter="DSLR_AFMButton_MouseEnter" MouseLeave="DSLR_AFMButton_MouseLeave" />
+                    </Canvas>
+
+                    <!-- Live View Autofocus Mode Button -->
+                    <Canvas  x:Name="DSLR_LvAFModeCanvas" Grid.Row="7" Grid.Column="3" Visibility="Hidden" >
+                        <TextBox x:Name="DSLR_LvAFModeButtonHG" Visibility="Visible"
+                                Height="25" Width="85" VerticalAlignment="Top"  HorizontalAlignment="Left" 
+                             Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" Grid.ColumnSpan="2" />
+                        <GroupItem x:Name="DSLR_LvAFModeArrow"  Width="85" Height="26" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Left="-8" />
+                        <Label x:Name="DSLR_LvAFLabel" Height="25" Width="45" Background="Transparent" Canvas.Left="0" Canvas.Top="0" 
+                                Content="LvAF:" FontFamily="Verdana" FontSize="12" FontWeight="Normal" FontStretch="Condensed" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                        <Label x:Name="DSLR_LvAFStr" Content="{Binding Path=EVF_AutoFocusModeStr, UpdateSourceTrigger=PropertyChanged }" Height="25" Width="50"  Canvas.Left="35" Canvas.Top="0"
+                                HorizontalAlignment="Left" FontFamily="Verdana" FontSize="11"  FontStretch="ExtraCondensed" FontWeight="Normal" Margin="2,1,0,0"  />
+                        <Rectangle Canvas.Left="0" Canvas.Top="0"  Width="86" Height="13" Fill="Transparent"
+                                MouseLeftButtonUp="LvAFUp_Click" MouseEnter="LvAFButton_MouseEnter" MouseLeave="LvAFButton_MouseLeave"  />
+                        <Rectangle Canvas.Left="0" Canvas.Top="13"  Width="86" Height="14" Fill="Transparent" 
+                                MouseLeftButtonUp="LvAFDown_Click" MouseEnter="LvAFButton_MouseEnter" MouseLeave="LvAFButton_MouseLeave" />
+                    </Canvas>
+
+                    <!-- DSLM AF Mode Button -->
+                    <Canvas x:Name="DSLM_AFMCanvas" Grid.Row="7" Grid.Column="1" Visibility="Hidden">
+                        <TextBox x:Name="DSLM_AFMButton" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center"
+                            Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5"  />
+                        <GroupItem x:Name="DSLM_AFMArrow" Width="80" Height="30" Canvas.Left="-8" />
+                        <Label x:Name="DSLM_AFMLabel" Height="25" Width="30" Margin="4,0,0,0" Visibility="Visible" 
+                            Content="AF:" HorizontalAlignment="Left" FontFamily="Verdana" FontSize="12" FontStretch="Condensed"   />
+                        <Image x:Name="DSLM_AFMIcon" Source="{Binding Path=AFModeIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=dummyIcon}}"
+                            Height="18" Width="40" Canvas.Left="40" Canvas.Top="3" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Visible" />
+                        <Rectangle Canvas.Left="0" Canvas.Top="-2"  Width="85" Height="14" Fill="Transparent"
+                            MouseLeftButtonUp="DSLM_AFMUp_Click" MouseEnter="DSLM_AFMButton_MouseEnter" MouseLeave="DSLM_AFMButton_MouseLeave" HorizontalAlignment="Center" VerticalAlignment="Top"  />
+                        <Rectangle Canvas.Left="0" Canvas.Top="14"  Width="85" Height="14" Fill="Transparent" 
+                            MouseLeftButtonUp="DSLM_AFMDown_Click" MouseEnter="DSLM_AFMButton_MouseEnter" MouseLeave="DSLM_AFMButton_MouseLeave" />
+                    </Canvas>
+
+                    <!-- DSLM Focus stacking button -->
+                    <Canvas  x:Name="DSLM_FStackingCanvas" Grid.Row="7" Grid.Column="3" Visibility="Hidden" >
+                        <TextBox x:Name="DSLM_FStackingButtonHG" 
+                             Height="25" Width="85" VerticalAlignment="Top"  HorizontalAlignment="Left" 
+                             Background="{DynamicResource LightSteelBlueGradientLight}" BorderBrush="SlateGray"  BorderThickness="0.5" Grid.ColumnSpan="2"  />
+                        <Label x:Name="DSLM_FStackingLabel" Height="25" Width="64" Background="Transparent" Canvas.Left="0" Canvas.Top="0" 
+                            Content="Stacking" FontFamily="Verdana" FontSize="12" FontWeight="Normal" FontStretch="Condensed" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+
+                        <Label x:Name="DSLM_FStackingIcon" Grid.RowSpan="2" Height="40" Width="25"
+                            Content="" FontFamily="Wingdings" FontSize="18"  FontStretch="Condensed"  FontWeight="Bold"  
+                            HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.Left="60" Canvas.Top="-4" />
+
+                        <Label x:Name="DSLM_StackingButton" BorderBrush="SlateGray" Height="25" Width="85"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-2,-2,0,0" 
+                           MouseEnter="StackingButton_MouseEnter" MouseLeave="StackingButton_MouseLeave" MouseLeftButtonUp="FocusStackingButton_Click"/>
+                    </Canvas>
+
+                    <!-- Bulb Mode Timer Control -->
+                    <Canvas x:Name="Bulb_TimerCanvas" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="3" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Hidden" 
+                            MouseEnter="Bulb_Timer_MouseEnter" MouseLeave="Bulb_Timer_MouseLeave">
+                        <GroupItem x:Name="Bulb_Timer" Grid.ColumnSpan="3" Height="28" Width="185" VerticalAlignment="Center"  HorizontalAlignment="Center"  
+                                Template="{StaticResource ResourceKey=StandardButtonTemplate1}"  BorderBrush="SlateGray"  BorderThickness="0.5" Visibility="Hidden" 
+                        MouseEnter="Bulb_Timer_MouseEnter" MouseLeave="Bulb_Timer_MouseLeave"  />
+                        <TextBlock Name="BT_h" Text="h" Canvas.Left="70" Canvas.Top="9"
+                            FontFamily="Verdana" FontWeight="Normal"  FontSize="12"  FontStretch="ExtraCondensed" />
+                        <TextBlock Name="BT_min"  Text="min"  Canvas.Left="105" Canvas.Top="9" 
+                            FontFamily="Verdana" FontWeight="Normal"  FontSize="12"  FontStretch="ExtraCondensed" />
+                        <TextBlock Name="BT_sec" Text="sec" Canvas.Left="155" Canvas.Top="9" 
+                            FontFamily="Verdana" FontWeight="Normal"  FontSize="12"  FontStretch="ExtraCondensed" />
+                        <TextBlock Name="BT_h_Str" Text="{Binding Path=BTHoursStr, UpdateSourceTrigger=PropertyChanged, TargetNullValue='00'}" 
+                            FontFamily="Verdana" FontWeight="Normal"  FontSize="12"  FontStretch="ExtraCondensed"
+                            Canvas.Left="46" Canvas.Top="9" Canvas.ZIndex="01" />
+                        <TextBlock Name="BT_min_Str" Text="{Binding Path=BTMinutesStr, UpdateSourceTrigger=PropertyChanged, TargetNullValue='00'}" 
+                            FontFamily="Verdana" FontWeight="Normal"  FontSize="12"  FontStretch="ExtraCondensed"
+                            Canvas.Left="84" Canvas.Top="9" Canvas.ZIndex="01" />
+                        <TextBlock Name="BT_sec_Str" Text="{Binding Path=BTSecondsStr, UpdateSourceTrigger=PropertyChanged, TargetNullValue='00'}" 
+                            FontFamily="Verdana" FontWeight="Normal"  FontSize="12"  FontStretch="ExtraCondensed"
+                            Canvas.Left="134" Canvas.Top="9"  />
+
+                        <Image x:Name="BubTimerImage" Source="{Binding Path=BulbTimerIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=BulbTimerIcon}}"
+                                Canvas.Left="16" Canvas.Top="03" Height="26" />
+
+                        <Rectangle Canvas.Left="0" Canvas.Top="3"  
+                            Width="80" Height="15" Fill="Transparent"  Canvas.ZIndex="02"
+                            MouseLeftButtonUp="BTHoursUp_Click" MouseEnter="BTHours_MouseEnter" MouseLeave="BTHours_MouseLeave"  />
+                        <Rectangle Canvas.Left="0" Canvas.Top="18"  
+                            Width="80" Height="13" Fill="Transparent"  Canvas.ZIndex="02"
+                            MouseLeftButtonUp="BTHoursDown_Click" MouseEnter="BTHours_MouseEnter" MouseLeave="BTHours_MouseLeave" />
+                        <Rectangle Canvas.Left="80" Canvas.Top="3"  
+                            Width="50" Height="15" Fill="Transparent" Canvas.ZIndex="02"
+                            MouseLeftButtonUp="BTMinutesUp_Click" MouseEnter="BTMinutes_MouseEnter" MouseLeave="BTMinutes_MouseLeave"  />
+                        <Rectangle Canvas.Left="80" Canvas.Top="18"  
+                            Width="50" Height="13" Fill="Transparent" Canvas.ZIndex="02"
+                            MouseLeftButtonUp="BTMinutesDown_Click" MouseEnter="BTMinutes_MouseEnter" MouseLeave="BTMinutes_MouseLeave" />
+                        <Rectangle Canvas.Left="130" Canvas.Top="3"  
+                            Width="60" Height="15" Fill="Transparent" Canvas.ZIndex="02"
+                            MouseLeftButtonUp="BTSecondsUp_Click" MouseEnter="BTSeconds_MouseEnter" MouseLeave="BTSeconds_MouseLeave"  />
+                        <Rectangle Canvas.Left="130" Canvas.Top="18"  
+                            Width="60" Height="13" Fill="Transparent" Canvas.ZIndex="02"  
+                            MouseLeftButtonUp="BTSecondsDown_Click" MouseEnter="BTSeconds_MouseEnter" MouseLeave="BTSeconds_MouseLeave" />
+                    </Canvas>
+
+                    <!-- Exposure Value Compensation Control-->
+                    <Canvas x:Name="EVCCanvas" Grid.Row="09" Grid.Column="1"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                            MouseLeave="EVCButton_MouseLeave" >
+                        <GroupItem x:Name="EVCGroupHG"  Grid.ColumnSpan="3" Grid.RowSpan="3" 
+                            HorizontalAlignment="Stretch" VerticalAlignment="Top"  Width="185" Height="28" 
+                            Template="{StaticResource ResourceKey=EVCButtonTemplate}" 
+                            MouseEnter="EVCButton_MouseEnter" MouseLeave="EVCButton_MouseLeave" />
+                        <StackPanel Orientation="Horizontal" Canvas.Left="08 ">
+                            <TextBlock  Text="         3 . .-2 . .-1 . . 0 . . 1 . . 2 . . 3"  
+                            Canvas.Left="08" Canvas.Top="3"  Canvas.ZIndex="01"
+                            FontFamily="Courier" FontWeight="Normal" FontSize="10" FontStretch="ExtraCondensed" Height="20" 
+                            MouseEnter="EVCButton_MouseEnter"  />
+                            <TextBlock ></TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Canvas.Left="08 " Canvas.Top="11"  MouseEnter="EVCButton_MouseEnter" >
+                            <TextBlock x:Name="EvcPreMarker"  Opacity="0"
+                                FontFamily="Courier" FontWeight="Normal" FontSize="10" FontStretch="ExtraCondensed" Height="20" />
+                            <TextBlock x:Name="EvcMarker"  Text="|" HorizontalAlignment="Left" VerticalAlignment="Top"  
+                                FontFamily="Symbol" FontWeight="ExtraBold"  FontSize="10" FontStretch="ExtraCondensed" Height="15" Foreground="Red"  />
+                        </StackPanel>
+
+                        <Polygon Name="EVCLeft"    Points="0,5 10,0 10,10 0,5 " Canvas.Left="65" Canvas.Top="25"
+                            Stroke="Black" Fill="Black" Visibility="Hidden" MouseEnter="EVCButton_MouseEnter" />
+                        <Polygon Name="EVCRight"   Points="0,0 10,5 0,10 0,0"   Canvas.Left="107" Canvas.Top="25"
+                            Stroke="Black" Fill="Black" Visibility="Hidden" MouseEnter="EVCButton_MouseEnter" />
+
+                        <Image Name="EVPlusMinusIcon" Source="../Resources/EV_AEBIcons/PlusMinus_Icon.png"  Height="13" Width="20"
+                            Canvas.Left="81" Canvas.Top="24"  Visibility="Hidden" MouseEnter="EVCButton_MouseEnter"/>
+
+                        <Rectangle x:Name="EVCLeftRect" Canvas.Left="05" Canvas.Top="20"  
+                            Width="75" Height="20" Fill="Transparent" Canvas.ZIndex="02" Visibility="Visible" 
+                            MouseLeftButtonDown="EVCLeft_Click" MouseEnter="EVCButton_MouseEnter" />
+
+                        <Rectangle x:Name="EVCRightRect" Canvas.Left="105" Canvas.Top="20"  
+                            Width="70" Height="20" Fill="Transparent"  Canvas.ZIndex="02" Visibility="Visible" 
+                            MouseLeftButtonDown="EVCRight_Click" MouseEnter="EVCButton_MouseEnter" />
+                    </Canvas>
+
+                    <!-- Select Picture Path GroupBox -->
+                    <GroupBox   Name="PicturePathGroupBox" Header="Define Picture Path" BorderBrush="SlateGray"  BorderThickness="1" 
+                        Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="3" FontSize="10">
+                        <GroupBox.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0.00" Color="LightSteelBlue" />
+                                <GradientStop Offset="0.10" Color="White" />
+                                <GradientStop Offset="0.90" Color="White" />
+                                <GradientStop Offset="1.00" Color="LightSteelBlue" />
+                            </LinearGradientBrush>
+                        </GroupBox.Background>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                                <RowDefinition Height="20" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <RadioButton x:Name="storePicturesOnCameraRadioButton" Content="Store Pictures on Camera"  
+                                    Grid.Row="0" Margin="10,5,0,0" Grid.ColumnSpan="2" IsEnabled="True"   IsChecked="True" FontSize="11" 
+                                    VerticalAlignment="Top" HorizontalAlignment="Left"
+                                    Checked="SaveTo_RdButton_Checked" Height="15" />
+                            <RadioButton x:Name="storePicturesOnHostRadioButton" Content="Store Pictures on Host" 
+                                    Grid.Row="1" Margin="10,0,0,0"  Grid.ColumnSpan="2" IsEnabled="True"  IsChecked="False" FontSize="11" 
+                                    VerticalAlignment="Top"  HorizontalAlignment="Left" 
+                                    Checked="SaveTo_RdButton_Checked"  />
+                            <TextBox     x:Name="pathOnHostTextBox" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                    Text =" " />
+                            <Button      x:Name="browseOnHostButton" Grid.Row="2" Grid.Column="1" Margin="5,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                    Content="..." FontSize="14" Background="{StaticResource LightSteelBlueGradientLight}"
+                                    IsEnabled="True" Click="BrowseOnHostButton_Click" />
+                        </Grid>
+                    </GroupBox>
+
+                    <!-- Battery Status and available Shots -->
+                    <Canvas Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <!-- Battery Status -->
+                        <TextBlock x:Name="fillStatus"  Canvas.Left="20" Canvas.Top="13"   
+                            Text=" " Foreground="DarkBlue" FontFamily="Verdana" FontWeight="Normal" FontSize="10" FontStretch="Condensed"/>
+                        <Image x:Name="BatteryLevelImage" Source="{Binding Path=BatteryIcon, UpdateSourceTrigger=PropertyChanged, FallbackValue={StaticResource ResourceKey=BatteryDefaultIcon}}" 
+                            Canvas.Left="50" Canvas.Top="10" Height="21" Width="30"/>
+                        <!-- availabele Shots -->
+                        <StackPanel x:Name="avShotsStackpanel" Orientation="Horizontal" Canvas.Left="120" Canvas.Top="10">
+                            <TextBlock Text="[" Foreground="Black" FontFamily="Verdana" FontWeight="ExtraBold" FontSize="14" FontStretch="Condensed"/>
+                            <TextBlock x:Name="AvShots" Text="  " Foreground="DarkBlue" FontFamily="Verdana" FontWeight="Normal" FontSize="14" FontStretch="Condensed"/>
+                            <TextBlock Text="]" Foreground="Black" FontFamily="Verdana" FontWeight="DemiBold" FontSize="14" FontStretch="Condensed"/>
+                        </StackPanel>
+                    </Canvas>
+
+                    <!--Exit-Button-->
+                    <Canvas Grid.Row="15" Grid.Column="01"  >
+                        <TextBox x:Name="ExitButtonHG" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0"
+                           Background="{DynamicResource LightSteelBlueGradientLight}"  BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <Label x:Name="ExitButtonLabel1" Height="25"  Width="80" Margin="4,4,0,0" FontWeight="Normal" 
+                           Content="Exit: " HorizontalAlignment="Left" FontFamily="Verdana"  FontSize="12" FontStretch="Condensed" />
+                        <Label x:Name="ExitButtonLabel2" Height="28"  Width="80" Margin="6,2,0,0" FontWeight="Normal" 
+                           Content="  "     HorizontalAlignment="Left" FontFamily="Wingdings"  FontSize="20" FontStretch="Condensed" Foreground="MediumVioletRed"/>
+                        <Label BorderBrush="SlateGray" Height="25" Width="85"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" 
+                           MouseEnter="ExitButton_MouseEnter" MouseLeave="ExitButton_MouseLeave" MouseLeftButtonUp="HandleWindowClosed"/>
+                    </Canvas>
+
+                    <!-- Restart-Button -->
+                    <Canvas Grid.Row="15" Grid.Column="03" >
+                        <TextBox x:Name="RestartButtonHG" Height="25" Width="85" VerticalAlignment="Center"  HorizontalAlignment="Center" Margin="0,5,0,0"
+                           Background="{DynamicResource LightSteelBlueGradientLight}"  BorderBrush="SlateGray"  BorderThickness="0.5" />
+                        <Label x:Name="RestartButtonLabel1" Height="25"  Width="80" Margin="0,4,0,0" FontWeight="Normal" 
+                           Content="Restart: " HorizontalAlignment="Left" FontFamily="Verdana"  FontSize="12" FontStretch="Condensed" />
+                        <Label x:Name="RestartButtonLabel2" Height="28"  Width="80" Margin="7,2,0,0" FontWeight="Normal" 
+                           Content="  "     HorizontalAlignment="Left" FontFamily="Wingdings"  FontSize="20" FontStretch="Condensed" Foreground="MediumVioletRed"/>
+                        <Label BorderBrush="SlateGray" Height="25" Width="85"  HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,5,0,0" 
+                           MouseEnter="RestartButton_MouseEnter" MouseLeave="RestartButton_MouseLeave" MouseLeftButtonUp="RestartButton_Click"/>
+                    </Canvas>
+
+                </Grid>
+            </StackPanel>
+        </Expander>
+    </Grid>
+</Window>
