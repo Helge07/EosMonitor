@@ -4,7 +4,7 @@ A tethering tool for Canon DSLR- and DSLM-cameras
 ## Table of contents
 - [Introduction](#Introduction)
 - [Requirements](#Requirements)
-- [Compilation and Installation](#Compilation and Installation)
+- [Compilation+Installation](#Compilation+Installation)
 - [Usage](#usage)
 - [Development](#development)
 - [License](#license)
