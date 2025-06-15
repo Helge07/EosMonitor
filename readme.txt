@@ -3,8 +3,8 @@ EosMonitor: A tethering tool for Canon DSLR- and DSLM-cameras
 
 Table of contents
 -----------------
-- Introduction)
-- Requirements)
+- Introduction
+- Requirements
 - Compilation and Installation
 - Usage
 - Development
