@@ -38,7 +38,7 @@ To compile and install the `EosMonitor`, follow these steps:
 6. Compiling the project `EosMonitor_Setup` will produce a .msi installation file which can be used to install the application as a Windows application.
 
 ## Usage
-The user manual `EosMonitor_Usermanual+Anleitung.pdf` for the EosMonitor can be downloaded from the repository.
+The user manual `EosMonitor_Usermanual+Anleitung.pdf` for the EosMonitor is downloaded with the repository.
 
 ## License
 EosMonitor is published under the GPL-3.0 license. See the LICENSE file for more information. The EDSDK files EDSDK.dll and EdsImage.dll are distributed with permission of Canon.
