@@ -26,9 +26,9 @@ Compilation and Installation
 To compile and install the `EosMonitor`, follow these steps:
 1. Get the repository from https://github.com/Helge07/EosMonitor/tree/master 
 
-2. Open the project file  EosMonitor\EosMonitor.sln
+2. Open the project file  EosMonitor\EosMonitor.sln  with Visual Studio.
 
-3. Compile the project `EosMonitor`. This generates the directories
+3. Compile the project `EosMonitor` in Release resp. Debug mode. This will generate the directories
    EosMonitor\bin\Debug\net9.0-windows10.0.22621.0
    resp.
    EosMonitor\bin\Release\net9.0-windows10.0.22621.0
