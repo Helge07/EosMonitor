@@ -4,7 +4,7 @@ A tethering tool for Canon DSLR- and DSLM-cameras
 ## Table of contents
 - [Introduction](#Introduction)
 - [Requirements](#Requirements)
-- [Compilation+Installation](#Compilation+Installation)
+- [Compilation_and_Installation](#Compilation_and_Installation)
 - [Usage](#usage)
 - [License](#license)
 
@@ -17,7 +17,7 @@ The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cam
 ## Requirements
 `EosMonitor` was developed with Visual Studio 2022 as a WPF-application based on Net 9.0. and the Canon development kit EDSDK 13.18.40. The complete EDSDK can be obtained from Canon, but the two files used in EosMonitor (EDSDK.dll and EdsImage.dll) are contained in the GitHub Repository (with permission of Canon).
 
-## Compilation+Installation
+## Compilation_and_Installation
 To compile and install the `EosMonitor`, follow these steps:
 1. Get the repository from https://github.com/Helge07/EosMonitor/tree/master 
 
