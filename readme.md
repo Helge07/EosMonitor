@@ -9,7 +9,7 @@ A tethering tool for Canon DSLR- and DSLM-cameras
 - [License](#license)
 
 ## Introduction
-The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cameras which are connected to a host computer via a USB cable. `EosMonitor` sets the parameters for taking pictures, can display a LiveView image and can download pictures to the host. A special feature of' EosMonitor' is the ability to take focus stacking and defocus stacking image series:
+The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cameras which are connected to a host computer via a USB cable. `EosMonitor` sets the parameters for taking pictures, can display a LiveView image and can download pictures to the host. A special feature of 'EosMonitor' is the ability to take focus stacking and defocus stacking image series:
 - Focus stacks are used to increase the depth of field 
 - Defocus stacks are used to increase the background blur 
 
