@@ -1,24 +1,28 @@
-# EosMonitor 
-A tethering tool for Canon DSLR- and DSLM-cameras
+EosMonitor: A tethering tool for Canon DSLR- and DSLM-cameras
+=============================================================
 
-## Table of contents
-- [Introduction](#Introduction)
-- [Requirements](#Requirements)
-- [Compilation and Installation](#Compilation and Installation)
-- [Usage](#usage)
-- [Development](#development)
-- [License](#license)
+Table of contents
+-----------------
+- Introduction)
+- Requirements)
+- Compilation and Installation
+- Usage
+- Development
+- License
 
-##Introduction
+Introduction
+------------
 The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cameras which are connected to a host computer via a USB cable. `EosMonitor` sets the parameters for taking pictures, can display a LiveView image and can download pictures to the host. A special feature of' EosMonitor' is the ability to take focus stacking and defocus stacking image series:
 - Focus stacks are used to increase the depth of field 
 - Defocus stacks are used to increase the background blur 
 
 
-## Requirements
+Requirements
+------------
 `EosMonitor` was developed with Visual Studio 2022 as a WPF-application based on Net 9.0. and the Canon development kit EDSDK 13.18.40. The complete EDSDK can be obtained from Canon, but the two files used in EosMonitor (EDSDK.dll and EdsImage.dll) are contained in the GitHub Repository (with permission of Canon).
 
-## Compilation and Installation
+Compilation and Installation
+----------------------------
 To compile and install the `EosMonitor`, follow these steps:
 1. Get the repository from https://github.com/Helge07/EosMonitor/tree/master 
 
@@ -38,11 +42,17 @@ To compile and install the `EosMonitor`, follow these steps:
 
 6. Compiling the project `EosMonitor_Setup` will produce a .msi installation file which can be used to install the application as a Windows application.
 
-## Usage
+Usage
+-----
 The user manual `EosMonitor_Usermanual+Anleitung.pdf` for the EosMonitor can be downloaded from the repository.
 
-## License
+License
+-------
 EosMonitor is published under the GPL-3.0 license. See the LICENSE file for more information. The EDSDK files EDSDK.dll and EdsImage.dll are distributed with permission of Canon.
+
+
+
+
 
 
 
