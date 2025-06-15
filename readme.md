@@ -6,10 +6,9 @@ A tethering tool for Canon DSLR- and DSLM-cameras
 - [Requirements](#Requirements)
 - [Compilation+Installation](#Compilation+Installation)
 - [Usage](#usage)
-- [Development](#development)
 - [License](#license)
 
-##Introduction
+## Introduction
 The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cameras which are connected to a host computer via a USB cable. `EosMonitor` sets the parameters for taking pictures, can display a LiveView image and can download pictures to the host. A special feature of' EosMonitor' is the ability to take focus stacking and defocus stacking image series:
 - Focus stacks are used to increase the depth of field 
 - Defocus stacks are used to increase the background blur 
@@ -18,7 +17,7 @@ The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cam
 ## Requirements
 `EosMonitor` was developed with Visual Studio 2022 as a WPF-application based on Net 9.0. and the Canon development kit EDSDK 13.18.40. The complete EDSDK can be obtained from Canon, but the two files used in EosMonitor (EDSDK.dll and EdsImage.dll) are contained in the GitHub Repository (with permission of Canon).
 
-## Compilation and Installation
+## Compilation+Installation
 To compile and install the `EosMonitor`, follow these steps:
 1. Get the repository from https://github.com/Helge07/EosMonitor/tree/master 
 
