@@ -28,7 +28,7 @@ To compile and install the `EosMonitor`, follow these steps:
    resp.
    EosMonitor\bin\Release\net9.0-windows10.0.22621.0
    
-4. Add the following three files to each of the above directories:
+4. Add the following three files from the directory 'RuntimeFiles' to each of the above directories:
    - EDSDK.dll
    - EdsImage.dll
    - EosMonitor.cfg
