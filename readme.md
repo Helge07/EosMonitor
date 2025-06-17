@@ -38,7 +38,7 @@ To compile and install `EosMonitor`, follow these steps:
 6. Compiling the project `EosMonitor_Setup` will produce a .msi installation file which can be used to install the application as a Windows application.
 
 ## Usage
-The `EosMonitor_Usermanual+Anleitung.pdf` contains the user documetation (in english and german). The documentation of the program structure can be found in `EosMonitor_structurediagrams.pdf`.
+The `EosMonitor_Usermanual+Anleitung.pdf` contains the user documentation (in english and german). The documentation of the program structure can be found in `EosMonitor_structurediagrams.pdf`.
 Moreover the program code contains delailed comments and explanations.  
 
 ## License
