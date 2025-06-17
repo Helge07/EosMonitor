@@ -9,7 +9,7 @@ A tethering tool for Canon DSLR- and DSLM-cameras
 - [License](#license)
 
 ## Introduction
-The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cameras which are connected to a host computer via a USB cable. `EosMonitor` sets the parameters for taking pictures, can display a LiveView image and can download pictures to the host. A special feature of 'EosMonitor' is the ability to take focus stacking and defocus stacking image series:
+The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cameras which are connected to a host computer via a USB cable. `EosMonitor` sets the parameters for taking pictures, can display a LiveView image and can download pictures to the host. A special feature of `EosMonitor` is the ability to take focus stacking and defocus stacking image series:
 - Focus stacks are used to increase the depth of field 
 - Defocus stacks are used to increase the background blur 
 
@@ -18,15 +18,15 @@ The Windows application `EosMonitor` is aimed to control Canon DSLM and DSLR cam
 `EosMonitor` was developed with Visual Studio 2022 as a WPF-application based on Net 9.0. and the Canon development kit EDSDK 13.18.40. The complete EDSDK can be obtained from Canon, but the two files used in EosMonitor (EDSDK.dll and EdsImage.dll) are contained in the GitHub Repository (with permission of Canon).
 
 ## Compilation_and_Installation
-To compile and install the `EosMonitor`, follow these steps:
+To compile and install `EosMonitor`, follow these steps:
 1. Get the repository from https://github.com/Helge07/EosMonitor/tree/master 
 
 2. Open the project file  EosMonitor\EosMonitor.sln
 
 3. Compile the project `EosMonitor`. This generates the directories
-   EosMonitor\bin\Debug\net9.0-windows10.0.22621.0
+   'EosMonitor\bin\Debug\net9.0-windows10.0.22621.0'
    resp.
-   EosMonitor\bin\Release\net9.0-windows10.0.22621.0
+   'EosMonitor\bin\Release\net9.0-windows10.0.22621.0'
    
 4. Add the following three files from the directory 'RuntimeFiles' to each of the above directories:
    - EDSDK.dll
