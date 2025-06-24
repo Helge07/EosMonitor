@@ -43,6 +43,9 @@
 							<tr> \
 								<td><button class='button button' onclick='EosM_german()'>EosMonitor</button></td> \
 							</tr> \
+							<tr> \
+								<td><button  class='button button' onclick='RasPiTrigger_german()'>RasPiTrigger</button></td>  \
+							</tr> \
 						</tbody> \
 					</table> \
 					<hr color='4054099' size='1'> \
@@ -100,6 +103,9 @@
 					</tr> \
 					<tr> \
 						<td><button class='button button' onclick='EosM_german()'>EosMonitor</button></td> \
+					</tr> \
+					<tr> \
+						<td><button  class='button button' onclick='RasPiTrigger_german()'>RasPiTrigger</button></td>  \
 					</tr> \
 				</tbody> \
 			</table> \
@@ -160,6 +166,9 @@
 							 \
 							<tr> \
 								<td><button class='button button' onclick='EosM_german()'>EosMonitor</button></td> \
+							</tr> \
+							<tr> \
+								<td><button  class='button button' onclick='RasPiTrigger_german()'>RasPiTrigger</button></td>  \
 							</tr> \
 						</tbody> \
 					</table> \
@@ -222,6 +231,9 @@
 						<tr> \
 							<td><button class='button button' onclick='EosM_german()'>EosMonitor</button></td> \
 						</tr> \
+						<tr> \
+							<td><button  class='button button' onclick='RasPiTrigger_german()'>RasPiTrigger</button></td>  \
+						</tr> \
 					</tbody> \
 				</table> \
 				<hr color='4054099' size='1'> \
@@ -258,6 +270,134 @@
     document.write(myStyle);
     document.write(textE);
   }
+   
+  function RasPiTrigger_german()
+  {
+	var textG = "  <br> \
+		<hr color='#4054099' size='2'> \
+		<table width='100%'>  \
+		<tbody> \
+	    <tr> \
+		<!------------------------------------ linke Spalte ----------------------------------------> \
+		<td id='left' valign='top'> \
+			<hr color='#4054099' size='1'> \
+			<table id='main_left' width=200 style='background-color: #D6f2ff;'> \
+				<tbody> \
+					<tr> \
+						<td><button class='button button' onclick='DFS_german()'>DefocusStacker</button></td> \
+					</tr> \
+					<tr> \
+						<td><button  class='button button' onclick='EosM_german()'>EosMonitor</button></td>  \
+					</tr> \
+					<tr> \
+						<td><button  class='button button' onclick='RasPiTrigger_german()'>RasPiTrigger</button></td>  \
+					</tr> \
+				</tbody> \
+		</table> \
+		<hr color='#4054099' size='1'> \
+		</td> \
+		 \
+		<!------------------------------------ rechte Spalte -------------------------------------> \
+		<td id='main' valign='top'> \
+			<p>&nbsp;</p>    \
+			<h3>RasPiTrigger</h3>  \
+			<img src='RasPiTrigger.jpg' width='600' class='center'>  \
+			<p>&nbsp;</p>  \
+				<button class='button button1'  >Deutsch</button> \
+				<button class='button button2' onclick='RasPiTrigger_english()'  >English</button> \
+			</p>  \
+			<p>Der RasPiTrigger ist eine Hardware/Software-Lösung zur Aufnahme von Wassertropfen-Skulpturen mit einem Raspberry Pi: \
+			</p>  \
+			<ul>  \
+				<li><p>Das Programm ist eine JavaFX-Anwendung und wird auf dem Raspbery Pi installiert </p></li>  \
+				 \
+				<li><p>In einer graphischen Benutzer-Oberfläche werden die Parameter für die Aufnahme eingestellt.</p></li>  \
+				 \
+				<li><p>Das Programm übernimmt die Steuerung aller beteiligten Geräte (Kamera, Blitzgeräte und Magnetventile).</p></li>  \
+				\
+				<li><p>Die Geräte sind an den Raspberry Pi über eine Anschluss-Box angeschlossen, welche sie elektrisch von den GPIO-Ports des Raspberry Pi trennt.</p></li>  \
+			</ul>  \
+			<p><a href='docs/RasPiTrigger.pdf'>Projekt-Beschreibung </a></p>  \
+			<p><a href='docs/RasPiTrigger-HowToUse.pdf'> Installations- und Bedienungs-Hinweise</a></p>  \
+			<p><a href='https://github.com/Helge07/RaspiTrigger'>GitHub repository</a></p>  \
+			<p>Lizenz:&nbsp; GNU General Public License v3.0</p>  \
+			<hr color='4054099' size='1'>  \
+		</td>  \
+		</tr> \
+<!------------------------------------ Ende Hauptbereich -------------------------------------------> \
+	</tbody> \
+	</table> \
+	  ";
+
+      document.close();
+      document.open("text/html");	
+      document.write(myStyle);
+      document.write(textG);
+  }
+  
+  function RasPiTrigger_english()
+  {
+	var textG = "  <br> \
+		<hr color='#4054099' size='2'> \
+		<table width='100%'>  \
+		<tbody> \
+	    <tr> \
+		<!------------------------------------ linke Spalte ----------------------------------------> \
+		<td id='left' valign='top'> \
+			<hr color='#4054099' size='1'> \
+			<table id='main_left' width=200 style='background-color: #D6f2ff;'> \
+				<tbody> \
+					<tr> \
+						<td><button class='button button' onclick='DFS_german()'>DefocusStacker</button></td> \
+					</tr> \
+					<tr> \
+						<td><button  class='button button' onclick='EosM_german()'>EosMonitor</button></td>  \
+					</tr> \
+					<tr> \
+						<td><button  class='button button' onclick='RasPiTrigger_german()'>RasPiTrigger</button></td>  \
+					</tr> \
+				</tbody> \
+		</table> \
+		<hr color='#4054099' size='1'> \
+		</td> \
+		 \
+		<!------------------------------------ rechte Spalte -------------------------------------> \
+		<td id='main' valign='top'> \
+			<p>&nbsp;</p>    \
+			<h3>RasPiTrigger</h3>  \
+			<img src='RasPiTrigger.jpg' width='600' class='center' >  \
+			<p>&nbsp;</p>  \
+				<button class='button button1'   onclick='RasPiTrigger_german()'>Deutsch</button> \
+				<button class='button button2'   >English</button> \
+			</p>  \
+			<p>RasPiTrigger is a hardware/software solution for recording water drop sculptures with a Raspberry Pi: \
+			</p>  \
+			<ul>  \
+				<li><p>The program is a JavaFX application installed on a Raspberry Pi.</p></li>  \
+				 \
+				<li><p>The recording parameters are set in a graphical user interface.</p></li>  \
+				 \
+				<li><p>The program controls all devices involved (camera, flash units and solenoid valves).</p></li>  \
+				\
+				<li><p>The devices are connected to the Raspberry Pi via a junction box, which electrically separates them from the Raspberry Pi's GPIO ports.</p></li>  \
+			</ul>  \
+			<p><a href='docs/RasPiTrigger.pdf'>Project Description</a></p>  \
+			<p><a href='docs/RasPiTrigger-HowToUse.pdf'> Installation and Operating Instructions</a></p>  \
+			<p><a href='https://github.com/Helge07/RaspiTrigger'>GitHub repository</a></p>  \
+			<p>Lizenz:&nbsp; GNU General Public License v3.0</p>  \
+			<hr color='4054099' size='1'>  \
+		</td>  \
+		</tr> \
+<!------------------------------------ Ende Hauptbereich -------------------------------------------> \
+	</tbody> \
+	</table> \
+	  ";
+
+      document.close();
+      document.open("text/html");	
+      document.write(myStyle);
+      document.write(textG);
+  }
 // -->
 </script>
 	
@@ -293,12 +433,17 @@
 					<tr>
 						<td><button  class="button button" onclick='EosM_german()'>EosMonitor</button></td> 
 					</tr>
+					<tr>
+						<td><button  class="button button" onclick='RasPiTrigger_german()'>RasPiTrigger</button></td> 
+					</tr>
 				</tbody>
 			</table>
 			<hr color="#4054099" size="1">
 		</td>
 		
 		<!------------------------------------ rechte Spalte ------------------------------------->
+		<td id="main" valign="top">
+		
 			<td id='main' valign='top'> 
 			  <p>&nbsp;</p>   
 			  <h3>EosMonitor</h3> 
@@ -320,7 +465,13 @@
 			  <p><a href='https://www.dropbox.com/scl/fi/1l13yrpteux191q9ofijn/EosMonitor.zip?rlkey=svzdyub04g7547w01vohjy9fg&amp;st=ipz8y07s&amp;dl=0'> Download (zip-Archiv mit einem .msi- Installationsprogramm)</a></p> 
 			  <p><a href='https://github.com/Helge07/EosMonitor'>GitHub repository</a></p> 
 			  <p>Lizenz:&nbsp; GNU General Public License v3.0&nbsp;&nbsp;&nbsp;</p> 
+			<hr color='4054099' size='1'> 
 			</td> 
+		
+		
+		
+		  
+		</td>
     </tr>
 <!------------------------------------ Ende Hauptbereich -------------------------------------->
 </tbody>
