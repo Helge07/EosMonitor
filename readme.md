@@ -41,6 +41,9 @@ To compile and install `EosMonitor`, follow these steps:
 The `EosMonitor_Usermanual+Anleitung.pdf` contains the user documentation (in english and german). The documentation of the program structure can be found in `EosMonitor_structurediagrams.pdf`.
 Moreover the program code contains delailed comments and explanations.  
 
+## EosMonitor on GitHub Pages
+- https://helge07.github.io/EosMonitor/
+
 ## License
 EosMonitor is published under the GPL-3.0 license. See the LICENSE file for more information. The EDSDK files EDSDK.dll and EdsImage.dll are distributed with permission of Canon.
 
